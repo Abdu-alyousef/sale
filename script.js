@@ -1,84 +1,66 @@
 document.addEventListener("DOMContentLoaded", () => {
   const header = document.getElementById("main-header");
   const menuToggle = document.getElementById("mobile-menu");
-  const navLinksContainer = document.querySelector(".nav-links");
-  const bodyElement = document.body;
+  const navLinks = document.getElementById("nav-links");
+  const themeToggle = document.getElementById("theme-toggle");
+  const closeMenu = document.getElementById("close-menu");
+  const body = document.body;
 
-  // 1. Optimized Unified Scroll Listener
-  window.addEventListener(
-    "scroll",
-    () => {
-      header.classList.toggle("scrolled", window.scrollY > 10);
-    },
-    { passive: true },
-  );
+  /* HEADER SCROLL */
+  window.addEventListener("scroll", () => {
+    header.classList.toggle("scrolled", window.scrollY > 10);
+  });
 
-  // 2. Precise Smooth Scrolling Logic
-  const smoothScrollLinks = document.querySelectorAll(
-    ".nav-links a, .btn-primary, .btn-nav",
-  );
-
-  smoothScrollLinks.forEach((link) => {
+  /* SMOOTH SCROLL + CLOSE MENU */
+  document.querySelectorAll('#nav-links a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (e) => {
-      const targetId = link.getAttribute("href");
+      const target = document.querySelector(link.getAttribute("href"));
+      if (!target) return;
 
-      if (targetId && targetId.startsWith("#")) {
-        e.preventDefault();
-        const targetElement = document.querySelector(targetId);
+      e.preventDefault();
 
-        if (targetElement) {
-          const elementPosition = targetElement.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.scrollY - 80;
+      window.scrollTo({
+        top: target.offsetTop - 80,
+        behavior: "smooth",
+      });
 
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth",
-          });
-        }
-      }
+      closeNav();
     });
   });
 
-  // 3. Scroll-Reveal Observer (Intersection Observer API)
-  const revealElements = document.querySelectorAll(".reveal");
+  /* OPEN MENU */
+  menuToggle.addEventListener("click", () => {
+    navLinks.classList.add("active");
+    body.classList.add("menu-open");
+  });
 
-  const revealOnScroll = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("active");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.12 },
-  );
-
-  revealElements.forEach((element) => revealOnScroll.observe(element));
-
-  // 4. Mobile Navigation Overlay Controller
-  const toggleMenu = (forceClose = false) => {
-    const shouldOpen = forceClose
-      ? false
-      : !navLinksContainer.classList.contains("active");
-
-    menuToggle.classList.toggle("is-active", shouldOpen);
-    navLinksContainer.classList.toggle("active", shouldOpen);
-    bodyElement.style.overflow = shouldOpen ? "hidden" : "auto";
-
-    // a11y Updates
-    menuToggle.setAttribute("aria-expanded", shouldOpen);
-    menuToggle.setAttribute(
-      "aria-label",
-      shouldOpen ? "Close navigation menu" : "Open navigation menu",
-    );
+  /* CLOSE MENU FUNCTION */
+  const closeNav = () => {
+    navLinks.classList.remove("active");
+    body.classList.remove("menu-open");
   };
 
-  menuToggle.addEventListener("click", () => toggleMenu());
+  /* CLOSE BUTTON */
+  closeMenu.addEventListener("click", closeNav);
 
-  // Auto-closes mobile overlay cleanly upon clicking any menu item link
-  const links = document.querySelectorAll(".nav-links a");
-  links.forEach((link) => {
-    link.addEventListener("click", () => toggleMenu(true));
+  /* THEME */
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") body.classList.add("dark");
+
+  const updateIcon = () => {
+    themeToggle.innerHTML = body.classList.contains("dark")
+      ? '<i class="fas fa-sun"></i>'
+      : '<i class="fas fa-moon"></i>';
+  };
+
+  updateIcon();
+
+  themeToggle.addEventListener("click", () => {
+    body.classList.toggle("dark");
+    localStorage.setItem(
+      "theme",
+      body.classList.contains("dark") ? "dark" : "light",
+    );
+    updateIcon();
   });
 });

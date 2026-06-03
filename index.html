@@ -18,22 +18,26 @@
           <img src="./favicon.png" alt="Logo" />
         </a>
 
-        <button
-          class="menu-toggle"
-          id="mobile-menu"
-          aria-label="Open navigation menu"
-          aria-expanded="false"
-          aria-controls="nav-links"
-        >
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
+        <button class="menu-toggle" id="mobile-menu" aria-label="Open menu">
+          <span></span><span></span><span></span>
         </button>
 
         <ul class="nav-links" id="nav-links">
+          <li class="close-menu">
+            <button id="close-menu" aria-label="Close menu">
+              <i class="fas fa-times"></i>
+            </button>
+          </li>
+
           <li><a href="#experience">Experience</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact" class="btn-nav">Contact</a></li>
+
+          <li>
+            <button id="theme-toggle" class="theme-toggle">
+              <i class="fas fa-moon"></i>
+            </button>
+          </li>
         </ul>
       </nav>
     </header>
@@ -59,7 +63,7 @@
     </section>
 
     <section id="experience" class="container section">
-      <h2>Retail Experience</h2>
+      <h2 style="margin-bottom: 40px">Retail Experience</h2>
 
       <div class="project-grid reveal">
         <div class="project-card">
