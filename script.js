@@ -62,5 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
       body.classList.contains("dark") ? "dark" : "light",
     );
     updateIcon();
+      closeNav();
   });
 });
