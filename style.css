@@ -9,7 +9,6 @@
 
   --primary: #111827;
 
-  /* ✅ FIX: separate button colors */
   --btn-bg: #111827;
   --btn-text: #ffffff;
 
@@ -27,7 +26,7 @@ body.dark {
 
   --primary: #ffffff;
 
-  /* ✅ FIX: dark mode button colors */
+  
   --btn-bg: #ffffff;
   --btn-text: #0b0f19;
 
@@ -244,14 +243,24 @@ nav {
 }
 
 .skills-list li {
-  display: inline-block;
-  padding: 6px 12px;
-  margin: 5px;
-  border-radius: 10px;
-  background: var(--bg-soft);
-  font-size: 0.85rem;
-}
+  display: inline-flex;
+  align-items: center;
 
+  padding: 8px 14px;
+  margin: 6px;
+
+  border-radius: 12px;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+
+  color: var(--text);
+  font-size: 0.85rem;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+
+  transition: all 0.25s ease;
+}
 /* =====================================================
   Education
 ===================================================== */
